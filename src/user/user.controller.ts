@@ -1,16 +1,31 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { ConfigService } from '@nestjs/config';
+import { User } from './user.entity';
+import { Logger } from 'nestjs-pino';
 
 @Controller('user')
 export class UserController {
   constructor(
     private userService: UserService,
     private configService: ConfigService,
-  ) {}
+    private logger: Logger,
+  ) {
+    this.logger.log('UserController init');
+  }
 
   @Get()
   getUsers(): any {
+    // 抛出内置的基础异常类
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+
+    this.logger.log('请求getUsers成功');
     // 访问环境变量
     console.log(
       'database user:',
@@ -22,13 +37,30 @@ export class UserController {
       this.configService.get<string>('database.port', '3306'),
     );
 
-    return this.userService.getUsers();
-    //
-    // return { code: 0, data: 'Hello User', msg: '请求成功' };
+    return this.userService.findAll();
   }
 
   @Post()
-  addUser(): any {
-    return this.userService.addUser();
+  async addUser(): Promise<User> {
+    const user: User = {
+      username: 'kfg',
+      password: '123456',
+    } as User;
+    // const newUser = await this.userService.create(user);
+    return this.userService.create(user);
+  }
+
+  @Get('profile')
+  getProfile(): any {
+    return this.userService.findProfile(1);
+  }
+  @Get('logs')
+  getLogs(): any {
+    return this.userService.findLogs(1);
+  }
+
+  @Get('logsByGroup')
+  getLogsByGroup(): any {
+    return this.userService.findLogsByGroup(1);
   }
 }
