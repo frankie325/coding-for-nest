@@ -2,9 +2,15 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from '../config';
 import * as Joi from 'joi';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { User } from './user/user.entity';
+import { Profile } from './user/profile.entity';
+import { Logs } from './logs/logs.entity';
+import { Roles } from './roles/roles.entity';
+import { LogsModule } from './logs/logs.module';
 
 // 区分不同环境的配置文件
 // const envPath = path.join(
@@ -37,6 +43,38 @@ console.log(envPath);
         DATABASE_PORT: Joi.number().valid(3305, 3306, 3307).default(3306),
       }),
     }),
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3307,
+    //   username: 'root',
+    //   password: '123456',
+    //   database: 'nest_learning',
+    //   entities: [],
+    //   // 同步本地的schema到数据库，初始化的时候使用
+    //   synchronize: true,
+    //   logging: ['error'],
+    // }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule], // 导入ConfigModule
+      inject: [ConfigService], // 注入ConfigService
+      // 通过ConfigService获取配置
+      useFactory: (configService: ConfigService) =>
+        ({
+          type: 'mysql',
+          host: configService.get<string>('database.host'),
+          port: configService.get<string>('database.port'),
+          username: configService.get<string>('database.user'),
+          password: configService.get<string>('database.password'),
+          database: configService.get<string>('database.name'),
+          // 要开始使用 user 实体，我们需要在模块的forRoot()方法的选项中（除非你使用一个静态的全局路径）将它插入entities数组中来让 TypeORM知道它的存在。
+          entities: [User, Profile, Logs, Roles],
+          synchronize: true,
+          logging: process.env.NODE_ENV === 'development', //在开发环境中打印所有日志
+          // logging: ['error'],
+        }) as TypeOrmModuleOptions,
+    }),
+    LogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
