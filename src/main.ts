@@ -12,7 +12,7 @@ async function bootstrap() {
     // logger: ['error', 'warn', 'log', 'debug', 'verbose'], // 显示所有日志
   });
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER)); //全局注册nest-winston
-  app.useGlobalFilters(new HttpExceptionFilter()); //全局注册异常过滤器
+  app.useGlobalFilters(new HttpExceptionFilter(logger)); //全局注册异常过滤器
   // 统一设置请求前缀
   // app.setGlobalPrefix('api');
   const port = process.env.PORT || 3000;
