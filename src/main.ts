@@ -1,12 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import { Logger, LogLevel } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 async function bootstrap() {
   const logger = new Logger();
   const app = await NestFactory.create(AppModule, {
+    logger: [process.env.LOG_LEVEL as LogLevel],
     // logger: false, //关闭nestjs的日志
     // logger: ['error', 'warn', 'log'], // 只显示错误、警告和日志
     // logger: ['error', 'warn', 'log', 'debug', 'verbose'], // 显示所有日志
