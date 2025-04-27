@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { Logs } from 'src/logs/logs.entity';
+import { getUserDto } from './dto/get-user.dto';
+import { conditionUtils } from 'src/utils/db.helper';
 
 @Injectable()
 export class UserService {
@@ -11,9 +13,53 @@ export class UserService {
     @InjectRepository(Logs) private readonly logsRepository: Repository<Logs>,
   ) {}
 
-  findAll() {
-    // 查询所有用户
-    return this.userRepository.find();
+  findAll(query: getUserDto) {
+    const { limit, page, username, gender } = query;
+    const take = limit || 10;
+    // SELECT * FROM user u LEFT JOIN profile p ON u.profileId = p.id;
+    // SELECT * FROM user u LEFT JOIN user_roles ur ON u.id = ur.userId
+    // SELECT u.id, u.username, r.name FROM user u LEFT JOIN user_roles ur ON u.id = ur.userId
+    // LEFT JOIN roles r ON ur.rolesId = r.id
+    // return this.userRepository.find({
+    //   // 查询关联关系表
+    //   relations: {
+    //     profile: true,
+    //     roles: true,
+    //   },
+    //   where: {
+    //     // 根据用户名查询
+    //     username,
+    //     // 根据性别查询
+    //     profile: {
+    //       gender,
+    //     },
+    //   },
+    //   // 分页参数
+    //   take,
+    //   skip: (page - 1) * take,
+    // });
+
+    const queryBuilder = this.userRepository
+      // 参数是表的别名
+      .createQueryBuilder('user')
+      // 第一个参数是您要加载的关联关系，第二个参数是您为该关联关系的表分配的别名
+      .leftJoinAndSelect('user.profile', 'profile')
+      .leftJoinAndSelect('user.roles', 'roles');
+    // 如果参数username不存在 where 1=1 表示条件肯定成立
+    // .where(username ? 'user.username = :username' : '1=1', { username })
+
+    // 下面两种写法是一个意思
+    // .where('user.username = :username', { username });
+    // .where('user.username = :user.username', { 'user.username': username });
+    // .andWhere('profile.gender = :gender', { gender })
+    return conditionUtils<User>(queryBuilder, {
+      'user.username': username,
+      'profile.gender': gender,
+    })
+      .take(take)
+      .skip((page - 1) * take)
+      .getMany();
+    // return queryBuilder.getMany();
   }
   find(username: string) {
     // 根据用户名查询用户
