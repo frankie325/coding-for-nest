@@ -1,8 +1,9 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, LogLevel } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
+// import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { AllExceptionFilter } from './filters/all-exception.filter';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -13,7 +14,10 @@ async function bootstrap() {
     // logger: ['error', 'warn', 'log', 'debug', 'verbose'], // 显示所有日志
   });
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER)); //全局注册nest-winston
-  app.useGlobalFilters(new HttpExceptionFilter(logger)); //全局注册异常过滤器
+  const adapterHost = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new AllExceptionFilter(logger, adapterHost)); //全局注册异常过滤器
+  // app.useGlobalFilters(new HttpExceptionFilter(logger)); //全局注册异常过滤器
+
   // 统一设置请求前缀
   // app.setGlobalPrefix('api');
   const port = process.env.PORT || 3000;
