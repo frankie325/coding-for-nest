@@ -31,7 +31,7 @@ function buildConnectOptions() {
     password: config[ConfigEnum.DATABASE_PASSWORD] as string,
     database: config[ConfigEnum.DATABASE_NAME] as string,
     synchronize: true,
-    logging: false,
+    logging: true,
     entities: entitiesDir,
   } as TypeOrmModuleOptions;
 }
