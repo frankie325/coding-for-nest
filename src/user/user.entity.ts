@@ -9,6 +9,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
   JoinColumn,
+  AfterRemove,
 } from 'typeorm';
 import { Profile } from './profile.entity';
 
@@ -21,7 +22,9 @@ export class User {
   @Column()
   password: string;
   // 创建一对一的关系
-  @OneToOne(() => Profile)
+  @OneToOne(() => Profile, {
+    cascade: true, // 级联操作
+  })
   @JoinColumn()
   profile: Profile;
   //  一对多的关系
@@ -36,4 +39,10 @@ export class User {
     name: 'user_roles', // 连接表的名称
   })
   roles: Roles[];
+
+  // 监听器
+  @AfterRemove()
+  afterRemove() {
+    console.log('删除用户成功');
+  }
 }

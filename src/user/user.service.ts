@@ -68,6 +68,12 @@ export class UserService {
     });
   }
 
+  findOne(id: number) {
+    return this.userRepository.findOne({
+      where: { id },
+    });
+  }
+
   create(user: User) {
     // 创建 User 的新实例
     const temp = this.userRepository.create(user);
@@ -75,14 +81,27 @@ export class UserService {
     return this.userRepository.save(temp);
   }
 
-  update(id: number, user: Partial<User>) {
-    // 更新用户信息
-    return this.userRepository.update(id, user);
+  async update(id: number, user: Partial<User>) {
+    console.log('🚀 ~ UserService ~ update ~ user:', user);
+    // 更新用户信息，下面的更新方法只适合单模型的更新，不适合有关系的模型更新
+    // return this.userRepository.update(id, user);
+
+    // 合并更新数据
+    const userTemp = await this.findProfile(id);
+    const newUser = this.userRepository.merge(userTemp as User, user);
+    // 级联更新，需要在实体类中添加cascade: true
+    // 联合模型更新，需要使用save方法或者queryBuilder
+    return this.userRepository.save(newUser);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     // 删除用户
-    return this.userRepository.delete(id);
+    // return this.userRepository.delete(id);
+    const user = await this.findOne(id);
+    if (!user) {
+      return null;
+    }
+    return this.userRepository.remove(user);
   }
 
   findProfile(id: number) {

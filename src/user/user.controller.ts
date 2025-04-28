@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -85,6 +86,7 @@ export class UserController {
   updateUser(@Body() dto: any, @Param('id') id: number) {
     console.log('🚀 ~ UserController ~ updateUser ~ dto:', dto);
     console.log('🚀 ~ UserController ~ updateUser ~ id:', id);
+    return this.userService.update(id, dto);
   }
 
   // /:id放在最下面，否则会将/user/xxx 当做/:id的参数
@@ -92,5 +94,10 @@ export class UserController {
   getUser(@Query() id: number): any {
     console.log('🚀 ~ UserController ~ getUser ~ id:', id);
     return 'hello user';
+  }
+
+  @Delete('/:id')
+  removeUser(@Param('id') id: number) {
+    return this.userService.remove(id);
   }
 }
