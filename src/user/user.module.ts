@@ -66,5 +66,6 @@ const isDev = process.env.NODE_ENV === 'development';
   ],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}

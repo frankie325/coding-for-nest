@@ -8,6 +8,7 @@ import * as Joi from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LogsModule } from './logs/logs.module';
 import { connectionParams } from '../ormconfig';
+import { AuthModule } from './auth/auth.module';
 // 区分不同环境的配置文件
 // const envPath = path.join(
 //   __dirname,
@@ -60,6 +61,7 @@ console.log(envPath);
     //     }) as TypeOrmModuleOptions,
     // }),
     LogsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
