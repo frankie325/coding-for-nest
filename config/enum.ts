@@ -5,6 +5,7 @@ export enum ConfigEnum {
   DATABASE_NAME = 'DATABASE_NAME',
   DATABASE_HOST = 'DATABASE_HOST',
   DATABASE_PORT = 'DATABASE_PORT',
+  JWT_SECRET = 'SECRET',
 }
 
 export enum LogEnum {
