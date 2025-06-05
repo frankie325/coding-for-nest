@@ -9,6 +9,7 @@ import {
   Query,
   Req,
   UseFilters,
+  UseGuards,
   // HttpException,
   // HttpStatus,
 } from '@nestjs/common';
@@ -18,7 +19,16 @@ import { User } from './user.entity';
 import { Logger } from 'nestjs-pino';
 import { getUserDto } from './dto/get-user.dto';
 import { TypeormFilter } from 'src/filters/typeorm.filter';
+import { AdminGuard } from 'src/guards/admin.guard';
+import { jwtGuard } from 'src/guards/jwt.guard';
 
+// 1.装饰器的执行顺序是从下往上执行的
+// @UseGuards(AdminGuard)
+// @UseGuards(AuthGuard('jwt')) //user模块全局使用jwt守卫
+
+// 2.使用@UseGuards()传递多个守卫时，守卫的执行顺序是从左到右执行的
+// @UseGuards(AuthGuard('jwt'), AdminGuard)
+@UseGuards(jwtGuard, AdminGuard)
 @Controller('user')
 @UseFilters(new TypeormFilter()) //在user模块局部使用异常过滤器
 export class UserController {

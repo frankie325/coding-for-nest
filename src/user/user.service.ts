@@ -71,6 +71,10 @@ export class UserService {
   findOne(id: number) {
     return this.userRepository.findOne({
       where: { id },
+      relations: {
+        profile: true, // 查询用户的个人资料
+        roles: true, // 查询用户的角色
+      },
     });
   }
 
