@@ -78,7 +78,7 @@ export class UserService {
     });
   }
 
-  create(user: User) {
+  async create(user: Partial<User>) {
     // 创建 User 的新实例
     const temp = this.userRepository.create(user);
     // 保存给定的实体或实体数组
