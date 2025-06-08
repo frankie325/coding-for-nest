@@ -12,6 +12,7 @@ import {
   AfterRemove,
 } from 'typeorm';
 import { Profile } from './profile.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -20,6 +21,7 @@ export class User {
   @Column({ unique: true }) //该字段保持唯一
   username: string;
   @Column()
+  @Exclude() // 在序列化时排除该字段
   password: string;
   // 创建一对一的关系
   @OneToOne(() => Profile, {

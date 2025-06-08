@@ -4,6 +4,7 @@ import { WinstonModule, WinstonModuleOptions, utilities } from 'nest-winston';
 import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 import { LogEnum } from '../../config/enum';
+import { LogsController } from './logs.controller';
 @Module({
   imports: [
     // 异步方式加载配置，拿到ConfigService
@@ -70,5 +71,6 @@ import { LogEnum } from '../../config/enum';
       },
     }),
   ],
+  controllers: [LogsController],
 })
 export class LogsModule {}
