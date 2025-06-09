@@ -65,6 +65,7 @@ export class UserService {
     // 根据用户名查询用户
     return this.userRepository.findOne({
       where: { username },
+      relations: ['roles', 'roles.menus'],
     });
   }
 

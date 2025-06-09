@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UserModule } from '../user/user.module';
@@ -8,7 +8,9 @@ import { ConfigEnum } from 'config/enum';
 import { PassportModule } from '@nestjs/passport';
 // import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
+import { CaslAbilityService } from './casl-ability.service';
 
+@Global()
 @Module({
   imports: [
     ConfigModule,
@@ -25,7 +27,7 @@ import { JwtStrategy } from './jwt.strategy';
     }),
   ], //引入UserModule，可以在AuthService中使用UserService
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
+  providers: [AuthService, JwtStrategy, CaslAbilityService],
+  exports: [AuthService, CaslAbilityService],
 })
 export class AuthModule {}
