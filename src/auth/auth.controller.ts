@@ -8,7 +8,7 @@ import {
   ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { User } from 'src/user/user.entity';
+import { User } from '../user/user.entity';
 import { SigninUserDto } from './dto/signin-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';

@@ -1,5 +1,5 @@
 import { Logs } from '../logs/logs.entity';
-import { Roles } from '../roles/roles.entity';
+import { Role } from '../roles/roles.entity';
 import {
   Column,
   Entity,
@@ -35,12 +35,12 @@ export class User {
   logs: Logs[];
 
   //  多对多关系
-  @ManyToMany(() => Roles, (roles) => roles.users)
+  @ManyToMany(() => Role, (role) => role.users)
   // 必须使用@JoinTable()注解来创建连接表
   @JoinTable({
     name: 'user_roles', // 连接表的名称
   })
-  roles: Roles[];
+  roles: Role[];
 
   // 监听器
   @AfterRemove()

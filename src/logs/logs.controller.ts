@@ -1,8 +1,8 @@
 import { Controller, Post, Body, UseInterceptors } from '@nestjs/common';
 import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Serialize } from 'src/decorators/serialize.decorator';
-import { SerializeInterceptor } from 'src/interceptors/serialize/serialize.interceptor';
+import { Serialize } from '../decorators/serialize.decorator';
+import { SerializeInterceptor } from '../interceptors/serialize/serialize.interceptor';
 
 class LogsDto {
   @IsString()

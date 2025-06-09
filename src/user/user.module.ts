@@ -4,7 +4,7 @@ import { UserService } from './user.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Logs } from 'src/logs/logs.entity';
+import { Logs } from '../logs/logs.entity';
 import { LoggerModule } from 'nestjs-pino';
 
 const isDev = process.env.NODE_ENV === 'development';

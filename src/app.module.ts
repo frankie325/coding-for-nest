@@ -9,6 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LogsModule } from './logs/logs.module';
 import { connectionParams } from '../ormconfig';
 import { AuthModule } from './auth/auth.module';
+import { RolesModule } from './roles/roles.module';
+import { MenusModule } from './menus/menus.module';
 // 区分不同环境的配置文件
 // const envPath = path.join(
 //   __dirname,
@@ -62,6 +64,8 @@ console.log(envPath);
     // }),
     LogsModule,
     AuthModule,
+    RolesModule,
+    MenusModule,
   ],
   controllers: [AppController],
   providers: [AppService],

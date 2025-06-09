@@ -18,9 +18,9 @@ import { ConfigService } from '@nestjs/config';
 import { User } from './user.entity';
 import { Logger } from 'nestjs-pino';
 import { getUserDto } from './dto/get-user.dto';
-import { TypeormFilter } from 'src/filters/typeorm.filter';
-import { AdminGuard } from 'src/guards/admin.guard';
-import { jwtGuard } from 'src/guards/jwt.guard';
+import { TypeormFilter } from '../filters/typeorm.filter';
+import { AdminGuard } from '../guards/admin.guard';
+import { jwtGuard } from '../guards/jwt.guard';
 
 // 1.装饰器的执行顺序是从下往上执行的
 // @UseGuards(AdminGuard)
