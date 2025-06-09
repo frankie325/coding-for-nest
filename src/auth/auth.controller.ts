@@ -25,7 +25,7 @@ export class AuthController {
   // @UseGuards(AuthGuard('local'))
   @Post('/signin')
   signin(@Body() dto: SigninUserDto, @NestRequest() req: Request) {
-    console.log('🚀 ~ AuthController ~ signin ~ req.user:', req.user);
+    // console.log('🚀 ~ AuthController ~ signin ~ req.user:', req.user);
     const { username, password } = dto;
     return this.authService.signin(username, password);
   }
@@ -33,7 +33,7 @@ export class AuthController {
   // @UseGuards(AuthGuard('jwt'))
   @Post('/signup')
   // @UseInterceptors(SerializeInterceptor)
-  signup(@Body() dto: User) {
+  signup(@Body() dto: SigninUserDto) {
     const { username, password } = dto;
     return this.authService.signup(username, password);
   }
