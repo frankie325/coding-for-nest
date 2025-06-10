@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -61,12 +61,13 @@ export class UserService {
       .getMany();
     // return queryBuilder.getMany();
   }
-  find(username: string) {
+  async find(username: string) {
     // 根据用户名查询用户
-    return this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { username },
       relations: ['roles', 'roles.menus'],
     });
+    return user;
   }
 
   findOne(id: number) {

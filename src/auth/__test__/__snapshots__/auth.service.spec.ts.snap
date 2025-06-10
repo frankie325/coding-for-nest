@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthService（登陆认证模块-服务） 用户使用相同的用户名注册 1`] = `"用户名已存在，请更换用户名"`;

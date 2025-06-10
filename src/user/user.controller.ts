@@ -21,6 +21,7 @@ import { getUserDto } from './dto/get-user.dto';
 import { TypeormFilter } from '../filters/typeorm.filter';
 import { AdminGuard } from '../guards/admin.guard';
 import { jwtGuard } from '../guards/jwt.guard';
+import { CreateUserDto } from './dto/create-user.dto';
 
 // 1.装饰器的执行顺序是从下往上执行的
 // @UseGuards(AdminGuard)
@@ -66,7 +67,7 @@ export class UserController {
   }
 
   @Post()
-  addUser(@Body() dto: User, @Req() req): any {
+  addUser(@Body() dto: CreateUserDto, @Req() req): any {
     console.log('🚀 ~ UserController ~ addUser ~ dto:', dto);
     // console.log('🚀 ~ UserController ~ addUser ~ req:', req);
     // const user: User = {
