@@ -10,6 +10,15 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
     ports:
       - 3307:3306
+
+  db2:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: testdb
+    ports:
+      - 3308:3306
     # (this is just an example, not intended to be a production configuration)
   adminer:
     image: adminer

@@ -57,7 +57,7 @@ const isDev = process.env.NODE_ENV === 'development';
               target: 'pino-roll',
               options: {
                 file: 'log.txt', // 日志文件路径
-                frequency: '1d', // 日志文件滚动频率
+                frequency: 'daily', // 日志文件滚动频率
                 mkdir: true, // 如果目录不存在则创建
               },
             },

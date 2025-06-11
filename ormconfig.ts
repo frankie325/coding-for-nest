@@ -20,7 +20,7 @@ function buildConnectOptions() {
 
   const entitiesDir =
     process.env.NODE_ENV === 'test'
-      ? [__dirname + '**/*.entity.ts']
+      ? [__dirname + '/**/*.entity.ts']
       : [__dirname + '/**/*.entity{.js,.ts}'];
 
   return {
@@ -31,7 +31,8 @@ function buildConnectOptions() {
     password: config[ConfigEnum.DATABASE_PASSWORD] as string,
     database: config[ConfigEnum.DATABASE_NAME] as string,
     // synchronize: true, // 是否自动同步数据库结构
-    logging: true,
+    // logging: true,
+    logging: false,
     entities: entitiesDir,
   } as TypeOrmModuleOptions;
 }

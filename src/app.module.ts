@@ -18,7 +18,7 @@ import { MenusModule } from './menus/menus.module';
 //   `.env.${process.env.NODE_ENV || 'development'}`,
 // );
 const envPath = `.env.${process.env.NODE_ENV || 'development'}`;
-console.log(envPath);
+// console.log(envPath);
 
 // ConfigModule上述代码将从默认位置（项目根目录）载入并解析一个.env文件，
 // 从.env文件和process.env合并环境变量键值对，并将结果存储到一个可以通过ConfigService访问的私有结构
@@ -37,9 +37,9 @@ console.log(envPath);
       // 例如：NODE_ENV只能是development或production，DATABASE_PORT只能是数字3305、3306或3307
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
-          .valid('development', 'production')
+          .valid('development', 'production', 'test')
           .default('development'),
-        DATABASE_PORT: Joi.number().valid(3305, 3306, 3307).default(3306),
+        DATABASE_PORT: Joi.number().valid(3305, 3306, 3307, 3308).default(3306),
       }),
     }),
     TypeOrmModule.forRoot(connectionParams),

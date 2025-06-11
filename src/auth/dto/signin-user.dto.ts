@@ -9,7 +9,7 @@ export class SigninUserDto {
     // $target表示当前被验证的对象
     // $constraint1表示第一个约束条件
     // $constraint2表示第二个约束条件
-    message: '用户名长度必须在$constraint1到 $constraint2之间',
+    message: '用户名长度必须在$constraint1到$constraint2之间',
   })
   username: string;
   @IsString()
